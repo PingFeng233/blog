@@ -6,12 +6,14 @@ from django.db import models
 class Post(models.Model):
     title = models.CharField(verbose_name='标题', max_length=50)
     content = models.TextField(verbose_name='正文')
-    category = models.CharField(verbose_name='标签', max_length=15)
     created_time = models.DateField(verbose_name='创建时间', auto_now_add=True)
     active = models.BooleanField(verbose_name='是否激活', default=True)
-    cover = models.ImageField(verbose_name='封面', default='default.jpg')
-    view_nums = models.IntegerField(verbose_name='访问量')
+    cover = models.ImageField(verbose_name='封面', default='default.jpg',
+                              upload_to='avatar/%Y/%m/%d')
+    view_nums = models.IntegerField(verbose_name='访问量', null=True, blank=True)
     comment = models.TextField(verbose_name='评论')
+    labels = models.ManyToManyField('Labels',verbose_name='标签')
+    category = models.ForeignKey('Category',verbose_name='类别')
 
     def __str__(self):
         return self.title
@@ -19,3 +21,25 @@ class Post(models.Model):
     class Meta:
         verbose_name = '文章'
         verbose_name_plural = '文章'
+
+
+class Category(models.Model):
+    name = models.CharField(verbose_name='类别', max_length=20)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = '分类'
+        verbose_name_plural = '分类'
+
+
+class Labels(models.Model):
+    name = models.CharField(verbose_name='标签', max_length=10)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = '标签'
+        verbose_name_plural = '标签'

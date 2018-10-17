@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="index_about">
+        <h2 class="c_titile">{{ post.title }}</h2>
+        <p class="box_c"><span class="d_time">发布时间:{{ post.created_time }}</span>
+        </p>
+        <ul class="infos">
+            <p>{{ post.content }}</p>
+        </ul>
+        <div class="keybq">
+            <p><span>关键词</span>:新闻,python,测试</p>
+
+        </div>
+        <div class="ad"></div>
+        <div class="nextinfo">
+            <p>上一篇：<a href="/news/s/2013-09-04/606.html">程序员应该如何高效的工作学习</a></p>
+            <p>下一篇：<a href="/news/s/2013-10-21/616.html">柴米油盐的生活才是真实</a></p>
+        </div>
+    </div>
+{% endblock %}

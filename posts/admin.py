@@ -4,6 +4,7 @@ from .models import Post, Category, Labels
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ['title', 'content', 'category', 'cover', 'comment']
+    filter_horizontal = ('labels',)
 
 
 # Register your models here.

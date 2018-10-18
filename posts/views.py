@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Post, Category
+from .models import Post, Category,Labels
 
 
 # Create your views here.
@@ -14,5 +14,4 @@ def index(request):
 
 def detail(request, id):
     post = Post.objects.get(id=id)
-    print(post)
     return render(request, 'posts/detail.html', locals())

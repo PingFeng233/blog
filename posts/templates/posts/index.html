@@ -6,8 +6,10 @@
     </h2>
     <div class="bloglist left">
         {% for post in posts %}
-            <h3>{{ post.title }}</h3>
-            <figure><img src="/static/images/{{ post.cover }}"></figure>
+            <a href="{% url 'posts:detail' post.id %}">
+                <h3>{{ post.title }}</h3>
+                <figure><img src="/static/images/{{ post.cover }}"></figure>
+            </a>
             <ul>
                 <p>{{ post.content | truncatechars:90 }}</p>
                 <a title="/" href="{% url 'posts:detail' post.id %}" class="readmore">阅读全文>></a>

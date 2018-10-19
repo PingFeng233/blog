@@ -15,9 +15,32 @@
                 <a title="/" href="{% url 'posts:detail' post.id %}" class="readmore">阅读全文>></a>
             </ul>
             <p class="dateview"><span>{{ post.created_time }}</span><span><b>标签:</b></span>
-                <span><a href="#">{{ post.category }}</a></span>
+                {% for lab in post.labels.all %}
+                    <span><a href="/search/?kw={{ lab }}">{{ lab }}</a></span>
+                {% endfor %}
             </p>
         {% endfor %}
+        {% block page %}
+            <nav aria-label="Page navigation" class="bloglist left">
+                <ul class="pagination" style="float:none;margin-bottom: 50px">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        {% endblock %}
     </div>
 
 {% endblock %}

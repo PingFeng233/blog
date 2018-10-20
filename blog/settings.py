@@ -114,3 +114,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# 分页/每页文章数
+PER_NUM = 3
+#最大分页
+MAX_PAGE = 5

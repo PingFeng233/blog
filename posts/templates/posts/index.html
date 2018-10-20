@@ -24,17 +24,19 @@
             <nav aria-label="Page navigation" class="bloglist left">
                 <ul class="pagination" style="float:none;margin-bottom: 50px">
                     <li>
-                        <a href="#" aria-label="Previous">
+                        <a href="?page={{ prev }}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
+                    {% for page in page_range %}
+                        {% if page == cur_page %}
+                            <li class='active'><a href="?page={{ page }}">{{ page }}</a></li>
+                        {% else %}
+                            <li><a href="?page={{ page }}">{{ page }}</a></li>
+                        {% endif %}
+                    {% endfor %}
                     <li>
-                        <a href="#" aria-label="Next">
+                        <a href="?page={{ next }}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>

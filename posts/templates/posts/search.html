@@ -2,7 +2,7 @@
 
 <article class="blogs">
     {% block content %}
-                <h1 class="t_nav"><span>您当前的位置：<a href="{% url 'posts:index' %}">首页</a>&nbsp;&gt;&nbsp;&nbsp;
+        <h1 class="t_nav"><span>您当前的位置：<a href="{% url 'posts:index' %}">首页</a>&nbsp;&gt;&nbsp;&nbsp;
                 搜索&nbsp;&gt;&nbsp;&nbsp;{{ kw }}</span></h1>
         <div class="bloglist left">
             {% for post in posts %}
@@ -20,6 +20,28 @@
                     {% endfor %}
                 </p>
             {% endfor %}
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination" style="float:none;margin-bottom: 50px">
+                    <li>
+                        <a href="?kw={{ kw }}&page={{ prev }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% for page in page_range %}
+                        {% if page == cur_page %}
+                            <li class='active'><a href="?kw={{ kw }}&page={{ page }}">{{ page }}</a></li>
+                        {% else %}
+                            <li><a href="?kw={{ kw }}&page={{ page }}">{{ page }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    <li>
+                        <a href="?kw={{ kw }}&page={{ next }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     {% endblock %}
 

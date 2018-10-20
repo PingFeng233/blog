@@ -1,8 +1,11 @@
+import math
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Post, Category, Labels
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
+from blog.settings import PER_NUM, MAX_PAGE
+from utils import custom_paginator
 
 
 # Create your views here.
@@ -15,8 +18,21 @@ def aside_data():
     return posts, categories, last_posts, rank_posts
 
 
-def index(request):
-    posts, categories, last_posts, rank_posts = aside_data()
+# 分页
+def pagination(request, post_list):
+    cur_page = int(request.GET.get('page', 1))
+    total_page = math.ceil(len(post_list) / PER_NUM)
+    start, end = custom_paginator(cur_page, total_page, MAX_PAGE)
+    page_range = range(start, end + 1)
+    posts = post_list[(cur_page - 1) * PER_NUM: cur_page * PER_NUM]
+    prev = cur_page - 1 if cur_page - 1 >= 1 else 1
+    next = cur_page + 1 if cur_page + 1 <= total_page else total_page
+    return start, end, page_range, posts, prev, next, cur_page
+
+
+def index(request, **kwargs):
+    post_list, categories, last_posts, rank_posts = aside_data()
+    start, end, page_range, posts, prev, next, cur_page = pagination(request, post_list)
     return render(request, 'posts/index.html', locals())
 
 
@@ -45,5 +61,8 @@ def search(request):
     kw = request.GET.get('kw', None)
     post_all, categories, last_posts, rank_posts = aside_data()
     if kw:
-        posts = Post.objects.filter(Q(title__contains=kw) | Q(content__contains=kw))
+        post_list = Post.objects.filter(Q(title__contains=kw) | Q(content__contains=kw))
+    else:
+        post_list = []
+    start, end, page_range, posts, prev, next, cur_page = pagination(request, post_list)
     return render(request, 'posts/search.html', locals())

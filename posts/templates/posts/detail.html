@@ -10,7 +10,7 @@
                     class="d_time">发布时间：{{ post.created_time }}</span><span>浏览次数：{{ post.view_nums }}</span>
             </p>
             <ul class="infos">
-                <p>{{ post.content }}</p>
+                <p>{{ post.content |safe}}</p>
             </ul>
             <div class="keybq">
                 <p><span>关键字词</span>：

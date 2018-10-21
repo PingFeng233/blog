@@ -12,8 +12,12 @@ class Post(models.Model):
                               upload_to='avatar/%Y/%m/%d')
     view_nums = models.IntegerField(verbose_name='访问量', null=True, blank=True)
     comment = models.TextField(verbose_name='评论')
-    labels = models.ManyToManyField('Labels',verbose_name='标签')
-    category = models.ForeignKey('Category',verbose_name='类别')
+    labels = models.ManyToManyField('Labels', verbose_name='标签')
+    category = models.ForeignKey('Category', verbose_name='类别')
+
+    def increase_view(self):
+        self.view_nums += 1
+        self.save(update_fields=['view_nums'])
 
     def __str__(self):
         return self.title

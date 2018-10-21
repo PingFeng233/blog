@@ -1,5 +1,6 @@
 import math
-from django.shortcuts import render
+import markdown
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Post, Category, Labels
 from django.core.exceptions import ObjectDoesNotExist
@@ -37,7 +38,14 @@ def index(request, **kwargs):
 
 
 def detail(request, id):
-    post = Post.objects.get(id=id)
+    post = get_object_or_404(Post, id=id)
+    post.increase_view()
+    post.content = markdown.markdown(post.content,
+                                     extensions=[
+                                         'markdown.extensions.extra',
+                                         'markdown.extensions.codehilite',
+                                         'markdown.extensions.toc'])
+
     posts, categories, last_posts, rank_posts = aside_data()
     try:
         prev = Post.objects.get(id=int(id) - 1)

@@ -12,7 +12,7 @@ from utils import custom_paginator
 # Create your views here.
 
 def aside_data():
-    posts = Post.objects.filter(active=True)
+    posts = Post.objects.filter(active=True).order_by('-id')
     categories = Category.objects.all()
     last_posts = posts.order_by('-created_time')[:5]
     rank_posts = posts.order_by('-view_nums')[:5]
@@ -31,21 +31,27 @@ def pagination(request, post_list):
     return start, end, page_range, posts, prev, next, cur_page
 
 
+# 渲染markdown
+def render_markdown(content):
+    content = markdown.markdown(content, extensions=[
+        'markdown.extensions.extra',
+        'markdown.extensions.codehilite',
+        'markdown.extensions.toc'])
+    return content
+
+
 def index(request, **kwargs):
     post_list, categories, last_posts, rank_posts = aside_data()
     start, end, page_range, posts, prev, next, cur_page = pagination(request, post_list)
+    for post in posts:
+        post.content = render_markdown(post.content)
     return render(request, 'posts/index.html', locals())
 
 
 def detail(request, id):
     post = get_object_or_404(Post, id=id)
     post.increase_view()
-    post.content = markdown.markdown(post.content,
-                                     extensions=[
-                                         'markdown.extensions.extra',
-                                         'markdown.extensions.codehilite',
-                                         'markdown.extensions.toc'])
-
+    post.content = render_markdown(post.content)
     posts, categories, last_posts, rank_posts = aside_data()
     try:
         prev = Post.objects.get(id=int(id) - 1)
@@ -73,4 +79,11 @@ def search(request):
     else:
         post_list = []
     start, end, page_range, posts, prev, next, cur_page = pagination(request, post_list)
+    for post in posts:
+        post.content = render_markdown(post.content)
     return render(request, 'posts/search.html', locals())
+
+
+def about(request):
+    post_all, categories, last_posts, rank_posts = aside_data()
+    return render(request, 'posts/about.html', locals())

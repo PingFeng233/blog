@@ -221,7 +221,7 @@ a.readmore { background: #fd8a61; color: #fff; padding: 5px 10px; float: right; 
 .category li { line-height: 30px; height: 30px; overflow: hidden; padding-left: 24px; border-bottom: #CCC dotted 1px }
 .website { margin: 10px 0; background: #F3F3F3; border-radius: 50%; text-align: center; }
 .website li { line-height: 26px; text-shadow: #fff 1px 1px 1px; height: 26px; }
-.weixin { background: url(../images/weixin.jpg) no-repeat; width: 100%; display: inline-block; height: 274px; overflow: hidden; margin: 10px 0; clear: both }
+.weixin { background: url(../images/weixin.jpg) no-repeat; width: 100%; display: inline-block; height: 200px; overflow: hidden; margin: 10px 0; clear: both;margin-left: 20px }
 
 div.search {padding: 30px 0;}
 

@@ -8,10 +8,14 @@
             {% for post in posts %}
                 <a href="{% url 'posts:detail' post.id %}">
                     <h3>{{ post.title }}</h3>
+                    {% if post.cover == 'default.jpg' %}
                     <figure><img src="/static/images/{{ post.cover }}"></figure>
+                {% else %}
+                    <figure><img src="/uploads/{{ post.cover }}"></figure>
+                {% endif %}
                 </a>
                 <ul>
-                    <p>{{ post.content | truncatechars:90 }}</p>
+                    <p>{{ post.content | truncatechars:90 |safe}}</p>
                     <a title="/" href="{% url 'posts:detail' post.id %}" class="readmore">阅读全文>></a>
                 </ul>
                 <p class="dateview"><span>{{ post.created_time }}</span><span><b>标签:</b></span>

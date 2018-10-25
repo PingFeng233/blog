@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'posts',
+    'videoplayer',
 ]
 
 MIDDLEWARE = [
@@ -120,5 +121,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
 # 分页/每页文章数
 PER_NUM = 3
-#最大分页
+# 最大分页
 MAX_PAGE = 5

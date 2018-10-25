@@ -20,5 +20,6 @@ from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'', include('posts.urls', namespace='posts'))
+    url(r'', include('posts.urls', namespace='posts')),
+    url(r'', include('videoplayer.urls', namespace='videoplayer'))
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

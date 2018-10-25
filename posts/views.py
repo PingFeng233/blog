@@ -66,8 +66,11 @@ def detail(request, id):
 
 def categories(request, pk):
     category = Category.objects.get(pk=pk)
-    posts, categories, last_posts, rank_posts = aside_data()
-    posts = category.post_set.all()
+    posts_aside, categories, last_posts, rank_posts = aside_data()
+    post_list = category.post_set.all()
+    start, end, page_range, posts, prev, next, cur_page = pagination(request, post_list)
+    for post in posts:
+        post.content = render_markdown(post.content)
     return render(request, 'posts/categories.html', locals())
 
 

@@ -9,13 +9,13 @@
                 <a href="{% url 'posts:detail' post.id %}">
                     <h3>{{ post.title }}</h3>
                     {% if post.cover == 'default.jpg' %}
-                    <figure><img src="/static/images/{{ post.cover }}"></figure>
-                {% else %}
-                    <figure><img src="/uploads/{{ post.cover }}"></figure>
-                {% endif %}
+                        <figure><img src="/static/images/{{ post.cover }}"></figure>
+                    {% else %}
+                        <figure><img src="/uploads/{{ post.cover }}"></figure>
+                    {% endif %}
                 </a>
                 <ul>
-                    <p>{{ post.content | truncatechars:90 }}</p>
+                    <p>{{ post.content | truncatechars:90|safe }}</p>
                     <a title="/" href="{% url 'posts:detail' post.id %}" class="readmore">阅读全文>></a>
                 </ul>
                 <p class="dateview"><span>{{ post.created_time }}</span><span><b>标签:</b></span>
@@ -24,6 +24,28 @@
                     {% endfor %}
                 </p>
             {% endfor %}
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination" style="float:none;margin-bottom: 50px">
+                    <li>
+                        <a href="?kw={{ kw }}&page={{ prev }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% for page in page_range %}
+                        {% if page == cur_page %}
+                            <li class='active'><a href="?kw={{ kw }}&page={{ page }}">{{ page }}</a></li>
+                        {% else %}
+                            <li><a href="?kw={{ kw }}&page={{ page }}">{{ page }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    <li>
+                        <a href="?kw={{ kw }}&page={{ next }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     {% endblock %}
 

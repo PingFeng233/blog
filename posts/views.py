@@ -1,13 +1,13 @@
 import math
 import markdown
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
-from .models import Post, Category, Labels
+from .models import Post, Category
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from blog.settings import PER_NUM, MAX_PAGE
-from utils import custom_paginator
-from userview.utils import change_info
+from posts.utils import custom_paginator, get_ip_info
+from userview.utils import change_info, change_detail_info
+from userview.models import Userip, PostipNumber
 
 
 # Create your views here.
@@ -47,12 +47,15 @@ def index(request, **kwargs):
     start, end, page_range, posts, prev, next, cur_page = pagination(request, post_list)
     for post in posts:
         post.content = render_markdown(post.content)
+
     return render(request, 'posts/index.html', locals())
 
 
 def detail(request, id):
     post = get_object_or_404(Post, id=id)
     post.increase_view()
+    change_detail_info(request,post)
+
     post.content = render_markdown(post.content)
     posts, categories, last_posts, rank_posts = aside_data()
     try:
@@ -63,6 +66,17 @@ def detail(request, id):
         next = Post.objects.get(id=int(id) + 1)
     except ObjectDoesNotExist:
         next = None
+
+    # 最近访客
+    userIp_list = post.viewer.all().order_by('-last_view_time')[:5]
+
+    last_viewers = []
+    for userIp in userIp_list:
+        viewer_info={}
+        ip_info = get_ip_info(userIp.ip)
+        viewer_info['ip'] = userIp.ip.replace(userIp.ip.split('.')[2], '**')
+        viewer_info['ip_info'] = ip_info
+        last_viewers.append(viewer_info)
     return render(request, 'posts/detail.html', locals())
 
 

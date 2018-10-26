@@ -1,5 +1,6 @@
 from .models import *
 from django.utils import timezone
+from posts.models import Post
 
 
 # 自定义的函数，不是视图
@@ -26,6 +27,7 @@ def change_info(request):  # 修改网站访问量和访问ip等信息
     if ip_exist:  # 判断是否存在该ip
         uobj = ip_exist[0]
         uobj.count += 1
+        uobj.last_view_time = timezone.now()
     else:
         uobj = Userip()
         uobj.ip = client_ip
@@ -60,3 +62,24 @@ def change_player_info(request):
         uobj.count = 1
         uobj.ip = cli_ip
     uobj.save()
+
+
+def change_detail_info(request, post):
+    if 'HTTP_X_FORWARDED_FOR' in request.META:
+        cli_ip = request.META['HTTP_X_FORWARDED_FOR'].split(',')[0]
+    else:
+        cli_ip = request.META['REMOTE_ADDR']
+
+    ip_exist = PostipNumber.objects.filter(ip=str(cli_ip))
+    if ip_exist:
+        uobj = ip_exist[0]
+        uobj.count += 1
+        uobj.last_view_time = timezone.now()
+    else:
+        uobj = PostipNumber()
+        uobj.count = 1
+        uobj.ip = cli_ip
+        uobj.last_view_time = timezone.now()
+    uobj.save()
+    post.viewer.add(uobj)
+    post.save()

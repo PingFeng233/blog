@@ -7,6 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from blog.settings import PER_NUM, MAX_PAGE
 from utils import custom_paginator
+from userview.utils import change_info
 
 
 # Create your views here.
@@ -41,6 +42,7 @@ def render_markdown(content):
 
 
 def index(request, **kwargs):
+    change_info(request)
     post_list, categories, last_posts, rank_posts = aside_data()
     start, end, page_range, posts, prev, next, cur_page = pagination(request, post_list)
     for post in posts:

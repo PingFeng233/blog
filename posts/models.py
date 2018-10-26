@@ -1,5 +1,5 @@
 from django.db import models
-
+from userview.models import PostipNumber
 
 # Create your models here.
 
@@ -10,10 +10,11 @@ class Post(models.Model):
     active = models.BooleanField(verbose_name='是否激活', default=True)
     cover = models.ImageField(verbose_name='封面', default='default.jpg',
                               upload_to='avatar/%Y/%m/%d')
-    view_nums = models.IntegerField(verbose_name='访问量',default=0)
+    view_nums = models.IntegerField(verbose_name='访问量', default=0)
     comment = models.TextField(verbose_name='评论')
     labels = models.ManyToManyField('Labels', verbose_name='标签')
     category = models.ForeignKey('Category', verbose_name='类别')
+    viewer = models.ManyToManyField('userview.PostipNumber', verbose_name='访客')
 
     def increase_view(self):
         self.view_nums += 1

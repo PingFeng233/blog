@@ -10,7 +10,7 @@
                     class="d_time">发布时间：{{ post.created_time }}</span><span>浏览次数：{{ post.view_nums }}</span>
             </p>
             <ul class="infos">
-                <p>{{ post.content |safe}}</p>
+                <p>{{ post.content |safe }}</p>
             </ul>
             <div class="keybq">
                 <p><span>关键字词</span>：
@@ -37,7 +37,7 @@
                 </h3>
                 <ul class="rank">
                     {% for post in last_posts %}
-                        <li><a href="{% url 'posts:detail' post.id %}" title={{ post.title }} >{{ post.title }}</a></li>
+                        <li><a href="{% url 'posts:detail' post.id %}" title={{ post.title }}>{{ post.title }}</a></li>
                     {% endfor %}
                 </ul>
                 <h3 class="ph">
@@ -46,7 +46,7 @@
                 <ul class="category">
                     {% for post in rank_posts %}
                         <li><a href="{% url 'posts:detail' post.id %}" title="{{ post.title }}"
-                               >{{ post.title }}</a></li>
+                        >{{ post.title }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
@@ -55,6 +55,9 @@
                     <p>最近访客</p>
                 </h3>
                 <ul>
+                    {% for viewer in last_viewers %}
+                        <p><span style="padding-right: 20px">{{ viewer.ip }}</span><span>{{ viewer.ip_info }}</span></p>
+                    {% endfor %}
                 </ul>
             </div>
         </aside>

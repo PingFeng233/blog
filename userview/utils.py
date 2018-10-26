@@ -1,6 +1,6 @@
 from .models import *
-from django.utils import timezone
 from posts.models import Post
+from datetime import datetime
 
 
 # 自定义的函数，不是视图
@@ -27,7 +27,7 @@ def change_info(request):  # 修改网站访问量和访问ip等信息
     if ip_exist:  # 判断是否存在该ip
         uobj = ip_exist[0]
         uobj.count += 1
-        uobj.last_view_time = timezone.now()
+        uobj.last_view_time = datetime.now()
     else:
         uobj = Userip()
         uobj.ip = client_ip
@@ -35,7 +35,7 @@ def change_info(request):  # 修改网站访问量和访问ip等信息
     uobj.save()
 
     # 增加今日访问次数
-    date = timezone.now().date()
+    date = datetime.now().date()
     today = DayNumber.objects.filter(day=date)
     if today:
         temp = today[0]
@@ -74,12 +74,12 @@ def change_detail_info(request, post):
     if ip_exist:
         uobj = ip_exist[0]
         uobj.count += 1
-        uobj.last_view_time = timezone.now()
+        uobj.last_view_time = datetime.now()
     else:
         uobj = PostipNumber()
         uobj.count = 1
         uobj.ip = cli_ip
-        uobj.last_view_time = timezone.now()
+        uobj.last_view_time = datetime.now()
     uobj.save()
     post.viewer.add(uobj)
     post.save()

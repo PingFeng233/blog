@@ -4,17 +4,53 @@
 {% endblock %}
 {% block content %}
     {% if v_url %}
-        <iframe width="100%" height="500px"
-                src="http://api.xfsub.com/index.php?url={{ v_url }}"
-                allowFullScreen="ture"
-                frameborder="0" border="0" marginwidth="0" marginheight="0" scrolling="no">
-        </iframe>
+        <div class="row">
+            {% if line != '1' %}
+                <div class="col-md-3" style="border-right:1px">
+                    <form action="{% url 'videoplayer:search' %}" method="post" style="width: 250px">
+                        {% csrf_token %}
+                        <input type="text" name="line" value="1" hidden='True'>
+                        <input type="text" name="video" value="{{ v_url }}" hidden='True'>
+                        <input type="submit" value="线路一">
+                    </form>
+                </div>
+            {% endif %}
+            {% if line != '2' %}
+                <div class="col-md-3" style="border-right:1px">
+                    <form action="{% url 'videoplayer:search' %}" method="post" style="width: 250px">
+                        {% csrf_token %}
+                        <input type="text" name="line" value="2" hidden='True'>
+                        <input type="text" name="video" value="{{ v_url }}" hidden='True'>
+                        <input type="submit" value="线路二">
+                    </form>
+                </div>
+            {% endif %}
+            {% if line != '3' %}
+                <div class="col-md-3" style="border-right:1px">
+                    <form action="{% url 'videoplayer:search' %}" method="post" style="width: 250px">
+                        {% csrf_token %}
+                        <input type="text" name="line" value="3" hidden='True'>
+                        <input type="text" name="video" value="{{ v_url }}" hidden='True'>
+                        <input type="submit" value="线路三">
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+        <div class="row">
+            <iframe width="100%" height="500px"
+                    src="{{ pre_url }}{{ v_url }}"
+                    allowFullScreen="ture"
+                    frameborder="0" border="0" marginwidth="0" marginheight="0" scrolling="no">
+            </iframe>
+        </div>
+
     {% else %}
         <form action="{% url 'videoplayer:search' %}" method="post"
               style="margin-top: 20%;width: 70% ">
             {% csrf_token %}
             <input type="text" style="height: 40px;width:80%;display:initial;"
                    name="video" class="form-control" placeholder="输入你要播放的视频链接">
+            <input type="text" name="line" value="1" hidden='True'>
             <input style="height: 40px;width: 80px;background-color:LightSkyBlue"
                    type="submit" value="开始解析">
         </form>

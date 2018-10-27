@@ -17,9 +17,15 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
+import django
+
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'', include('posts.urls', namespace='posts')),
-    url(r'', include('videoplayer.urls', namespace='videoplayer'))
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                  url(r'^admin/', admin.site.urls),
+                  url(r'', include('posts.urls', namespace='posts')),
+                  url(r'', include('videoplayer.urls', namespace='videoplayer')),
+                  url(r'^static/(?P<path>.*)$', django.views.static.serve,
+                      {'document_root': settings.STATIC_ROOT}, name='static'),
+                  url(r'^uploads/(?P<path>.*)$', django.views.static.serve,
+                      {'document_root': settings.MEDIA_ROOT})
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

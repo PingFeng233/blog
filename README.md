@@ -6,6 +6,6 @@
 
 如果要用这个博客的源码，记得要先python manage.py makemigrations 和 python manage.py migrate 进行数据迁移。
 
-部署到服务器上的方法，我在博客上写了一个教程：http://67.216.197.144:22222/detail/6/
+部署到服务器上的方法，我在博客上写了一个教程：http:www.pfblog.top/detail/6/
 
-博客地址：http://67.216.197.144:22222/
+博客地址：http:www.pfblog.top
